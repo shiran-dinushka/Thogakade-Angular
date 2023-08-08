@@ -1,10 +1,11 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading" ></mat-progress-bar>
 <div class="main">
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
         <form>
           <mat-form-field class="full-width" appearance="fill">
-            <input type="search" matInput placeholder="Search here">
+            <input #element type="search" (keyup)="searchCustomer(element.value)" matInput placeholder="Search here">
           </mat-form-field>
         </form>
       </div>
@@ -21,23 +22,17 @@
       <th>Customer Salary</th>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>C001</td>
-          <td>Nimal</td>
-          <td>Colombo</td>
-          <td>25800$</td>
+        <tr *ngFor="let temp of dataSet; index as num">
+          <td>{{num+1}}</td>
+          <td>{{temp.id}}</td>
+          <td>{{temp.name}}</td>
+          <td>{{temp.address}}</td>
+          <td>{{temp.salary}}</td>
         </tr>
 
       </tbody>
     </table>
 
-    <mat-paginator [length]="100"
-                   [pageSize]="10"
-                   [pageSizeOptions]="[5,10,25,100]"
-                   aria-label="Select page">
-
-    </mat-paginator>
   </div>
 
 </div>

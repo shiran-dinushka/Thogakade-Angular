@@ -14,6 +14,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatLegacyProgressBarModule} from "@angular/material/legacy-progress-bar";
 
 
 
@@ -27,16 +31,20 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     UpdateCustomerComponent,
     DeleteCustomerComponent
   ],
-  imports: [
-    CommonModule,
-    CustomerRoutingModule,
-    MatTabsModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatPaginatorModule
-  ]
+    imports: [
+        CommonModule,
+        CustomerRoutingModule,
+        MatTabsModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MatProgressBarModule,
+        MatLegacyProgressBarModule
+    ]
 })
 export class CustomerModule{
 
