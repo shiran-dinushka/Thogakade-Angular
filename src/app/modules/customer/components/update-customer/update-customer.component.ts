@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {CustomerService} from "../../services/customer.service";
 
 @Component({
   selector: 'app-update-customer',
@@ -12,7 +13,7 @@ export class UpdateCustomerComponent implements OnInit{
 
   loading = false;
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {
+  constructor(private customerService: CustomerService, private toastr: ToastrService) {
   }
 
   form = new FormGroup({
@@ -25,15 +26,15 @@ export class UpdateCustomerComponent implements OnInit{
 
   submitForm(){
     this.loading = true;
-    this.http.put("http://127.0.0.1:3000/api/v1/customer/update",{
+    this.customerService.updateCustomer(
       // @ts-ignore
-      id:this.form.value.id?.toString(),
+      this.form.value.id.toString(),
       // @ts-ignore
-      name:this.form.value.name?.toString(),
+      this.form.value.name.toString(),
       // @ts-ignore
-      address:this.form.value.address?.toString(),
-      salary:this.form.value.salary
-    }).subscribe(result =>{
+      this.form.value.address.toString(),
+      Number(this.form.value.salary)
+    ).subscribe(result =>{
       this.loading=false;
       this.onSuccess('Updated Successfully');
     }, err =>{

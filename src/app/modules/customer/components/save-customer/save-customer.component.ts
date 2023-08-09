@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
+import {CustomerService} from "../../services/customer.service";
 
 @Component({
   selector: 'app-save-customer',
@@ -12,7 +13,9 @@ export class SaveCustomerComponent implements OnInit{
 
   loading = false;
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {
+  constructor(
+    private customerService: CustomerService,
+    private http: HttpClient, private toastr: ToastrService) {
   }
 
   form = new FormGroup({
@@ -25,15 +28,16 @@ export class SaveCustomerComponent implements OnInit{
 
   submitForm(){
     this.loading = true;
-    this.http.post("http://127.0.0.1:3000/api/v1/customer/save",{
+
+    this.customerService.saveCustomer(
       // @ts-ignore
-      id:this.form.value.id?.toString(),
+      this.form.value.id.toString(),
       // @ts-ignore
-      name:this.form.value.name?.toString(),
+      this.form.value.name.toString(),
       // @ts-ignore
-      address:this.form.value.address?.toString(),
-      salary:this.form.value.salary
-    }).subscribe(result =>{
+      this.form.value.address.toString(),
+      Number(this.form.value.salary)
+    ).subscribe(result =>{
       this.loading=false;
       this.onSuccess('Saved Successfully');
     }, err =>{

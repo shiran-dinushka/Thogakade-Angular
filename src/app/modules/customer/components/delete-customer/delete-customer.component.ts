@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Customer} from "../../dto/CustomerDto";
+import {CustomerService} from "../../services/customer.service";
 
 
 @Component({
@@ -16,7 +17,7 @@ export class DeleteCustomerComponent implements OnInit {
 
   loading = false;
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {
+  constructor(private customerService: CustomerService , private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -34,11 +35,10 @@ export class DeleteCustomerComponent implements OnInit {
   filterUser() {
     this.loading = true;
 
-    this.http.get<Customer>('http://127.0.0.1:3000/api/v1/customer/get', {
+    this.customerService.getCustomer(
       // @ts-ignore
-      headers: { id:this.form.value.id?.toString()}
-
-    }).subscribe(result => {
+        this.form.value.id?.toString()
+      ).subscribe(result => {
       if(result!=null){
 
         this.form.patchValue({
@@ -76,10 +76,10 @@ export class DeleteCustomerComponent implements OnInit {
   removeCustomer(){
     if(confirm("Are you sure?"))
       {
-        this.http.delete('http://127.0.0.1:3000/api/v1/customer/delete',{
-                // @ts-ignore
-                headers: {id:this.form.value.id?.toString()}
-              }).subscribe(result => {
+       this.customerService.deleteCustomer(
+        // @ts-ignore
+        this.form.value.id?.toString()
+      ).subscribe(result => {
                 this.loading = false;
                 console.log(result);
                 this.form.reset();
