@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
 import {Customer} from "../../dto/CustomerDto";
+import {CustomerService} from "../../services/customer.service";
 
 
 @Component({
@@ -12,14 +13,15 @@ import {Customer} from "../../dto/CustomerDto";
 export class GetCustomerComponent implements OnInit {
   loading = false;
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {
+  constructor(private customerService: CustomerService, private toastr: ToastrService) {
   }
 
 dataSet: Customer[] = [];
   searchCustomer(text: string) {
     this.loading = true;
-    this.http.get<Customer>('http://127.0.0.1:3000/api/v1/customer/search',
-        {headers:{text: text}}).subscribe(result=>{
+    this.customerService.searchCustomer(
+      text
+    ).subscribe(result=>{
           this.loading = false;
           // @ts-ignore
           this.dataSet= result;
